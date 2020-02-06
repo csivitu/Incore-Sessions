@@ -90,7 +90,7 @@ Python has `math.gcd(a,b)` where as C/C++, GNU GCC (not Clang or MinGW) has `_gc
 
 ### Bézout's identity — Let a and b be integers with greatest common divisor d. Then, there exist integers x and y such that ax + by = d. More generally, the integers of the form ax + by are exactly the multiples of d.
 
-This identity is widely used in contest coding with differnt flavours and style, bottom line however reamins same, that if GCD(a,b) = 1, the expression aX+bY can have assume any value, otherwise it cannot.
+This identity is widely used in contest coding with different flavours and style, bottom line however reamins same, that if GCD(a,b) = 1, the expression aX+bY can assume any value, otherwise it cannot.
 
 <hr>
 
