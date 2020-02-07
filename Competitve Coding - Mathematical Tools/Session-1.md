@@ -96,3 +96,4 @@ This identity is widely used in contest coding with different flavours and style
 
 ## Mini Project
 Read about extended Euclidean algorithm, modular inverse and use of number `10^9+7` in competitve coding.
+
