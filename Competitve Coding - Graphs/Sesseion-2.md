@@ -166,7 +166,5 @@ You will be asked `Q` questions, in each question you will be two numbers `A` an
 `1<=N<=10^5`  
 `1<=A,B<=N, A!=B`  
 
-- Monk's BDay Treat
-
-[https://www.hackerearth.com/challenges/competitive/code-monk-graph-theory-i/algorithm/monks-birthday-treat/]
+- [Monk's BDay Treat](https://www.hackerearth.com/challenges/competitive/code-monk-graph-theory-i/algorithm/monks-birthday-treat/)
 
