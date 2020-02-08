@@ -16,11 +16,11 @@ We then define two operations :
 - `Find(A,B)` : This will tell if A and B are somehow connected or not.
 
 Initial implementation is basically the fact that lets say we have a set of elements, tagged 1-10.  
-We define an array `Arr[1..10]` such that `Arr[i]` = i (i.e, `Arr[2]=2,Arr[5]=5,...`and so on).
+We define an array `Arr[1..10]` such that `Arr[i]` = i (i.e, `Arr[2] = 2, Arr[5] = 5,...`and so on).
 
 
 - Then we define `Union(A,B)` as making `Arr[B] = Arr[A]`
-- `Find(A,B)` as checking if `A[A]==A[B]`
+- `Find(A,B)` as checking if `A[A] == A[B]`
 
 So our DS class looks something like this:
 
@@ -34,7 +34,7 @@ class UnionDisjoinSet:
 	def union(self,a,b):
 		tag = self.arr[a]
 		for i in range(len(self.arr)):
-			if self.arr[i]==tag: #elements in A's set
+			if self.arr[i] == tag: #elements in A's set
 				self.arr[i] = self.arr[b]
 
 	def find(self,a,b):
@@ -104,7 +104,7 @@ class UnionDisjoinSet:
 			return self.root(self.arr[a])
 
 	def union(self,a,b): #weighted union
-		if(self.size[self.root(a)]>=self.size[self.root(b)]):
+		if(self.size[self.root(a)] >= self.size[self.root(b)]):
 			self.arr[self.root(a)] = self.root(b)
 			self.size[self.root(a)] += self.size[self.root(b)]
 		else:
@@ -125,7 +125,7 @@ First improvement we can do to our utility class is improving `Root(A)`.Its recu
 ```python
 	def root(self,a):
 		index = a
-		while(self.arr[index]!=index):
+		while(self.arr[index] != index):
 			index = self.arr[index]
 		return index
 ```
@@ -136,7 +136,7 @@ Now the little insight, **how about instead of pointing current index to its par
 ```python
 	def root(self,a):
 		index = a
-		while(self.arr[index]!=index):
+		while(self.arr[index] != index):
 			index = self.arr[self.arr[index]]
 		return index
 ```
@@ -162,9 +162,9 @@ For example, 6 is connected to 2 and 3. 2 and 3 in turn are connected to all of 
 
 You will be asked `Q` questions, in each question you will be two numbers `A` and `B`. You need to tell if they are connected to each other or not.
 
-`1<=Q<=10^5`  
-`1<=N<=10^5`  
-`1<=A,B<=N, A!=B`  
+`1 <= Q <= 10^5`  
+`1 <= N <= 10^5`  
+`1 <= A, B <= N, A != B`  
 
 - [Monk's BDay Treat](https://www.hackerearth.com/challenges/competitive/code-monk-graph-theory-i/algorithm/monks-birthday-treat/)
 
