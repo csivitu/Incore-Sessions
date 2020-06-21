@@ -18,3 +18,7 @@ Documentation of Incore Sessions held by CSIVIT.
 ## Buffer Overflow
 
 - [Session-1](./Buffer%20Overflow/Session-1.md): 12 June 2020
+
+## Crypto and Reverse
+
+- [Session-1](./Crypto%20and%20Reverse/Session-1.md): 21 June 2020
