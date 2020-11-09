@@ -25,4 +25,4 @@ Documentation of Incore Sessions held by CSIVIT.
 
 ## Node js
 
-- [Session-1](./Node-js/Session-1.md)
+- [Session-1](./Node-js/Session-1.md): 09 November 2020
