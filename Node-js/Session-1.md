@@ -25,13 +25,14 @@
 ### Build a basic server and about node js being event-driven 
 
 - In your command line
-```
+```sh
 npm init
 ```
 in your project directory to initialise the directory you are in as a node js folder.
 
 - This creates a package.json file which looks something like this:
-```
+
+```json
 {
   "name": "note-app",
   "version": "1.0.0",
