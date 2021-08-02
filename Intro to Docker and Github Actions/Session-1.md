@@ -153,3 +153,5 @@ jobs:
         run: |
           docker push ghcr.io/ashikka/demo-project
 ```
+
+**You can find the demo project [here](https://github.com/ashikka/demo-project).**
