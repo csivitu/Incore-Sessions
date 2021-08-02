@@ -1,87 +1,155 @@
-# Docker, CI/CD
+# Intro to Docker and Github actions
 
-- Docker is a virtualization tool a bit similar to virtual boxes but better
-- we have 3 layers in an OS, Applications, OS kernel (acts as middleman between applications and hardware), hardware
-- every OS has a different kernel
-- docker virtualizes only the application layer/VMs virtualize application+OS kernel
-- makes docker lighter and faster helping you to work with it more
-- Container in docker - a box where you're going to put all your dependencies and configurations of your application
-	- makes development+deployment faster
-	- easy to move around and share
+Docker is a virtualization tool and is a bit similar to virtual machines.
+
+## Docker at an OS level
+We have 3 layers in an OS: 
+1. Application
+2. OS kernel
+3. Hardware
+
+All applications are built on top of the OS kernel. The OS kernel acts as middleman between Application layer and Hardware layer. Every OS has a different kernel.
+Docker virtualizes only the *Application layer* whereas virtual machines virtualize the *Application layer and the OS kernel*.
+This makes Docker lighter and faster.
+
+## Containers and Images
+
+1. **Containers** : Can be thought of as a box where you're going to put all your dependencies and configurations of your application. This makes development+deployment faster and is easier to move around and share. Containers are running environment of an image. 
+
+2. **Images**: It is the actual package or artifact. It is the non-running environment of the container. 
 	
 ## Why Do We Need Docker? 
-	before: development team+devOps team
-				- used to cause so many problems (eg. versions wouldn't match)
-				- would be very painful for devops team
-				- devops team member crying image
 
-	after:
-		- packaged entire application inside a container that can be moved from developemtn to devops team
-		- doesnt matter which machine the container is working on
+### Before Docker
+The developement and operations teams worked separately. The developement team provided the operations team with a texual guide on how to setup the enivorment for the application. This sed to cause so many problems, for example, the versions of packages and dependencies would not match. 
 
-
-## img and container 
-	img: actual package/artifact
-	container: running environment of that img/layers of an image stacked
+### After Docker
+The entire application is packaged inside a container that can be moved from the different teams. The container is independant of the machine it is running on. All of the aforementioned problems can be thus avoided.
 	
 ## Commands	
+1. Check you docker version with: 
+```bash
+docker --version
+```
+2. To test your installation with a sample image, use:
+```bash
+docker run hello-world
+```
 
-~docker --version
-~docker run hello-world (to check whether docker is running perfectly fine)
-~docker run (if you dont have the img in ur local system, then it'll pull the container from docker hub and it runs)
-~docker images (to check how many images we have on our system)
-~docker ps (all the containers running in our system)
+3. To see all images in your system, use: 
+```bash
+docker images
+```
 
-redis - has an already given port 6379 (recommended by redis)
+4. To see all running containers, use: 
+```bash
+docker ps
+```
 
-~docker run -d redis (run a container and check how many container is running at the same time)
-~docker stop <container_id> (stops running the container)
-~docker run --name first-redis redis (renaming your container into whatever you want, over here first-redis)
+5. To run a container use: 
 
-Note: you can use Docker to run different versions of the same application/service
-- two versions running on the same port will become a problem as you will not be able to distinguish between which version is running on what port
-- to resolve: rename the port names (~docker run -d --name first-redis -p:6000:6379)
-6000- port of local machine/6379 - port redis listens to
+```bash
+docker run
+```
 
-~docker stop 
-~docker system prune (will remove all stopped containers+all dangling images+all dangling build cache+all networks not used by at least one container)
+For example, to run a redis container use - `docker run redis`
+
+You also use the following aliases:-
+| Alias     | Description |
+| ----------- | ----------- |
+| -d      | To run a container in detached mode      |
+| --name <Container_name>   | To give a custom name to your container       |
+
+<br>
+
+6. To stop a running container use: 
+```bash
+docker stop <container_id>
+```
+or,
+```bash
+docker stop <container_name>
+```
+
+7. To remove all stopped containers, all dangling images, all dangling build cache, all networks not used by at least one container, use:
+
+```bash
+docker system prune
+```
+
+**Note**: You can use Docker to run different versions of the same application/service.
+
+8. To bind a custom port to your container use the `-p` alias.
+
+For example,
+
+```bash
+docker run -p6000:6379 redis
+```
 
 
+## Sample Dockerfile
 
+This dockerfile is for a React.js frontend. 
 
-### APP USING DOCKER
-npm run dev 
-docker: give every single instruction 
-1. pull official base image 
+```Dockerfile
+# pull official base image
 FROM node:lts-alpine
-2. Set working directory
+
+# set working directory
+WORKDIR /
+
+# set environment variables 
 ENV PORT 3000
-3. Install app dependencies
-RUN npm install -g npme7
+
+# install app dependencies
+RUN npm install -g npm@7
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 COPY . ./
-RUN npm install
+RUN npm run build
+
+# start app
+CMD ["npm", "start"]
+```
+
+Build this `Dockerfile` using `docker build . -t demo-project` and then run `docker run demo-project`. This will start your application inside a container. 
 
 
 
-serve-script: serves all the static files that are there in build
-~docker build . -t demo-project
+## Github actions
+GitHub Actions connects all of your tools to automate every step of your development workflow.
+In this incore session, we wrote an action to publish an image of our application to GitHub Container Repository.
 
+## Sample Action
 
+```yml
+name: publish
 
+on:
+  push:
+    branches:
+      - master
 
-## CI/CD
-- action: going to publish the image that we're building using the app to a GitHub repository
-			1. u need a github folder with a sub-folder called workflow
-			2. you need to have a yaml file (have a yaml formatter to make life less painful)
+jobs:
+  publish-demo-project-image:
+    runs-on: ubuntu-latest
 
-actions are not pre-defined 
-- dockerhub: people can push whatever images they want on that
+    steps:
+      - uses: actions/checkout@v2
 
-~docker run demo-project (you need to bind localhost port to container port to successfully run a project)
-the running project is running inside a container
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-
-pulled image on to our local system 
+      - name: Build Demo Project image
+        run: |
+          docker build . --tag ghcr.io/ashikka/demo-project
+      - name: Push Demo Project image
+        run: |
+          docker push ghcr.io/ashikka/demo-project
+```
