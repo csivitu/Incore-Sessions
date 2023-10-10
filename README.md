@@ -29,3 +29,6 @@ Documentation of Incore Sessions held by CSIVIT.
 
 ## Intro to Docker and Github Actions
 - [Session-1](./Intro%20to%20Docker%20and%20Github%20Actions/Session-1.md): 01 August 2021
+
+## Git and Version Control
+- [Session-1](./Git%20and%20Version%20Control/Session-1.md): 23 August 2023
